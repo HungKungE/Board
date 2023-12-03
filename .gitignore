@@ -6,4 +6,5 @@ client/build/
 # server
 server/node_modules/
 server/build/
-server/main.js
+server/**/*.js
+server/.env

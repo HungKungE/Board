@@ -1,7 +1,7 @@
-import express from "express";
+// dependency
+import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import path from "path";
-// dependency
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import session from "express-session";
@@ -36,14 +36,13 @@ app.use(
   })
 );
 
-// api 엔드 포인트 등록
+// api 엔드 포인트 등록 -> api 요청을 라우팅 처리
 app.use("", route);
 
 // build 파일 접근
 app.use(express.static(`${__dirname}/../client/build`));
 
-// react 앱과 연결
-app.get(`*`, (req, res) => {
+app.get(`*`, (req: Request, res: Response) => {
   let indexPath = path.join(__dirname, "../client/build/index.html");
   res.sendFile(indexPath);
 });
