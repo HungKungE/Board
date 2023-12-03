@@ -7,3 +7,23 @@ export interface UserInfo {
   join_time: Date;
   user_role: UserRole;
 }
+
+export const mapToUserInfo = (data: any): UserInfo => {
+  if (!data) {
+    return {
+      user_id: -1,
+      nickname: "",
+      password: "",
+      join_time: new Date(),
+      user_role: "user",
+    };
+  }
+
+  return {
+    user_id: data.user_id,
+    nickname: data.nickname,
+    password: data.password,
+    join_time: new Date(data.join_time),
+    user_role: data.user_role as UserRole,
+  };
+};

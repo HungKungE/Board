@@ -1,13 +1,13 @@
 import { sendPostRequest } from "./api";
 
 export interface SignUpUserInfo {
-  id: string;
+  nickname: string;
   password: { value: string; check: string };
   email: { local_part: string; domain: string };
 }
 
 export interface SignInUserInfo {
-  id: string;
+  nickname: string;
   password: string;
 }
 
@@ -24,7 +24,7 @@ export const sendSignUpRequest = (userInfo: SignUpUserInfo) => {
   };
 
   const userData = {
-    id: userInfo.id,
+    nickname: userInfo.nickname,
     password: userInfo.password.value,
     email: getEmail(),
   };

@@ -13,7 +13,7 @@ interface SignUpProps {
 
 const SignUp: React.FunctionComponent<SignUpProps> = ({ setPageType }) => {
   const [userData, setUserData] = useState<SignUpUserInfo>({
-    id: "",
+    nickname: "",
     password: { value: "", check: "" },
     email: { local_part: "", domain: "" },
   });
@@ -36,7 +36,7 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ setPageType }) => {
       return;
     }
 
-    if (checkId(userData.id)) {
+    if (checkId(userData.nickname)) {
       console.log("아이디 정책 위반!");
       return;
     }
@@ -65,16 +65,16 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ setPageType }) => {
         <div className="flex flex-row w-full gap-4">
           <input
             className={inputStyle}
-            value={userData.id}
+            value={userData.nickname}
             placeholder="아이디"
             onChange={(e) => {
-              setUserData({ ...userData, id: e.target.value });
+              setUserData({ ...userData, nickname: e.target.value });
             }}
           />
           <button
             className="w-[100px] px-[10px] my-[10px] rounded-[15px] bg-slate-500 text-white"
             onClick={() => {
-              sendIdCheckRequest(userData.id).then((res) => {
+              sendIdCheckRequest(userData.nickname).then((res) => {
                 if (!res.success) {
                   console.log(res.error);
                   return;

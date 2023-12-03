@@ -16,7 +16,7 @@ const LogIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
   const loginState = useLogin();
 
   const [userData, setUserData] = useState<SignInUserInfo>({
-    id: "",
+    nickname: "",
     password: "",
   });
 
@@ -76,10 +76,10 @@ const LogIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
       <div className="flex flex-col w-full justify-center items-center px-[30px] gap-4">
         <input
           className={inputStyle}
-          value={userData.id}
+          value={userData.nickname}
           placeholder="Username"
           onChange={(e) => {
-            setUserData({ ...userData, id: e.target.value });
+            setUserData({ ...userData, nickname: e.target.value });
           }}
         />
         <input
