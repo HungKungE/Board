@@ -17,5 +17,4 @@ SQL : MySQL
 ```sh
   source user.sql;
   source post.sql;
-  source comment.sql;
 ```
