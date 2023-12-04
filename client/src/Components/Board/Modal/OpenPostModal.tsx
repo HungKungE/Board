@@ -31,20 +31,22 @@ const OpenPostModal: React.FunctionComponent<OpenPostMoalProps> = ({
         </button>
       </div>
       <div className="w-full h-full flex flex-col gap-[10px] p-[10px]">
-        <div className="flex flex-col w-full h-full gap-2 pt-[10px] items-center">
-          <div className="font-extralight text-center">글쓴이 :</div>
-          <div className="w-full h-full border-2 px-[10px] py-[5px]">
+        <div className="flex flex-row gap-2 pt-[10px] items-center">
+          <div className="font-extralight text-center">글쓴이</div>
+          <div className="border-2 px-[10px] py-[5px]">
             {postData.postHeader.nickname}
           </div>
         </div>
-        <div className="flex flex-col w-full h-full gap-2 pt-[10px] items-center">
-          <div className="font-extralight text-center">글 쓴 시간 :</div>
-          <div className="w-full h-full border-2 px-[10px] py-[5px]">
+        <div className="flex flex-row gap-2 pt-[10px] items-center">
+          <div className="font-extralight text-center">글 쓴 시간</div>
+          <div className="border-2 px-[10px] py-[5px]">
             {createTime.toISOString()}
           </div>
         </div>
         <div className="flex flex-col w-full h-full gap-2 pt-[10px] items-center">
-          {postData.content}
+          <div className="w-full h-full border-4 px-[10px] py-[5px]">
+            {postData.content}
+          </div>
         </div>
       </div>
     </div>

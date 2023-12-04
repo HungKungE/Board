@@ -1,6 +1,12 @@
 import mysql2, { RowDataPacket } from "mysql2/promise";
 import { dbConfig } from "../dbConnect";
-import { Post, PostHeader, mapToPost, mapToPostHeader } from "../entity/post";
+import {
+  Post,
+  PostHeader,
+  getContent,
+  mapToPost,
+  mapToPostHeader,
+} from "../entity/post";
 
 export const createPost = async (
   userId: number,
@@ -13,6 +19,20 @@ export const createPost = async (
 
   try {
     await connection.query(insertPostQuery, [userId, title, content]);
+  } catch (error) {
+    throw error;
+  } finally {
+    await connection.end();
+  }
+};
+
+export const getPostContent = async (post_id: number) => {
+  const connection = await mysql2.createConnection(dbConfig);
+  const query = "SELECT content FROM post WHERE post_id = ?";
+  try {
+    const [rows] = await connection.query<RowDataPacket[]>(query, [post_id]);
+    const content: string = getContent(rows[0]);
+    return content;
   } catch (error) {
     throw error;
   } finally {

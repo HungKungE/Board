@@ -68,3 +68,11 @@ export const mapToPostHeader = (data: any): PostHeader => {
     dislikes: data.dislikes, // 싫어요 정보가 있는 경우에만 true로 설정
   };
 };
+
+export const getContent = (data: any): string => {
+  if (!data) {
+    return "";
+  }
+
+  return data.content;
+};

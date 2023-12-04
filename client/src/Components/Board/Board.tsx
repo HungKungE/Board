@@ -108,8 +108,10 @@ const Board: React.FunctionComponent = () => {
                       console.log(res.error);
                       return;
                     }
-
-                    setOpenPostData(res.openPostData);
+                    setOpenPostData({
+                      postHeader: board,
+                      content: res.content,
+                    });
                     setOpenModal(MODAL.OPEN);
                   });
                 }}

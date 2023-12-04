@@ -13,7 +13,7 @@ const BoardItem: React.FunctionComponent<BoardItemProps> = ({
 
   return (
     <div className="flex flex-row w-full h-[100px]">
-      <div className="flex flex-col w-[70%]">
+      <div className="flex flex-col w-[70%] cursor-pointer">
         <div
           onClick={() => {
             onClick(boardItem.post_id);
