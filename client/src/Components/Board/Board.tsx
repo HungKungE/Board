@@ -45,6 +45,7 @@ const Board: React.FunctionComponent = () => {
         <UploadPostModal
           closeModal={() => {
             setOpenModal(false);
+            setDoFetch(false);
           }}
         ></UploadPostModal>
       )}

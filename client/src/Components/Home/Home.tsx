@@ -72,7 +72,7 @@ const Home: React.FunctionComponent = () => {
             setMenu(MENU.BOARD);
           }}
         >
-          내 이모티콘
+          게시글 목록
         </div>
         <div
           className={menuStyle}
