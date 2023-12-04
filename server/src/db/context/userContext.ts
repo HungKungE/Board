@@ -17,6 +17,21 @@ export const getUserInfo = async (nickname: string) => {
   }
 };
 
+export const getUserPassword = async (nickname: string) => {
+  const connection = await mysql2.createConnection(dbConfig);
+  const query = "SELECT password FROM user_info WHERE nickname = ?";
+
+  try {
+    const [rows] = await connection.query<RowDataPacket[]>(query, [nickname]);
+    const userInfo = mapToUserInfo(rows[0]);
+    return userInfo;
+  } catch (error) {
+    throw error;
+  } finally {
+    await connection.end();
+  }
+};
+
 export const createUserInfo = async (nickname: string, password: string) => {
   const connection = await mysql2.createConnection(dbConfig);
   const insertQuery =
@@ -24,6 +39,22 @@ export const createUserInfo = async (nickname: string, password: string) => {
 
   try {
     await connection.query(insertQuery, [nickname, password]);
+  } catch (error) {
+    throw error;
+  } finally {
+    await connection.end();
+  }
+};
+
+export const updateUserPassword = async (
+  nickname: string,
+  password: string
+) => {
+  const connection = await mysql2.createConnection(dbConfig);
+  const insertQuery = "UPDATE user_info SET password = ? WHERE nickname = ?";
+
+  try {
+    await connection.query(insertQuery, [password, nickname]);
   } catch (error) {
     throw error;
   } finally {

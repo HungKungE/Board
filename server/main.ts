@@ -8,6 +8,7 @@ import session, { SessionData } from "express-session";
 import cors from "cors";
 // our_module
 import route from "./src/route/route";
+import { SessionUserInfo } from "./src/db/entity/user";
 
 dotenv.config();
 
@@ -25,9 +26,7 @@ app.use(cors());
 // 로컬에서 실행시키려면 store: new session.MemoryStore() 로 바꾸기
 declare module "express-session" {
   export interface SessionData {
-    nickname?: string;
-    userId?: number;
-    login_time?: Date;
+    userInfo?: SessionUserInfo;
   }
 }
 

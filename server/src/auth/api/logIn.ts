@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { getUserInfo } from "../../db/context/userContext";
 import { serializePassword } from "../../utils/serialize";
 import session from "express-session";
+import { SessionUserInfo } from "../../db/entity/user";
 
 const router = express.Router();
 
@@ -32,10 +33,16 @@ router.post("/", async (req: Request, res: Response) => {
     return;
   }
 
+  const sessionUserInfo: SessionUserInfo = {
+    user_id: userInfo.user_id,
+    nickname: userInfo.nickname,
+    login_time: new Date(),
+    user_role: userInfo.user_role,
+  };
+
   // 서버 세션에 저장 =================================================
-  req.session.nickname = userInfo.nickname;
-  req.session.userId = userInfo.user_id;
-  req.session.login_time = new Date();
+  req.session.userInfo = sessionUserInfo;
+
   // 성공 응답 ========================================================
   res.status(200).json({
     success: true,

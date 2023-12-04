@@ -8,6 +8,13 @@ export interface UserInfo {
   user_role: UserRole;
 }
 
+export interface SessionUserInfo {
+  user_id: number;
+  nickname: string;
+  login_time: Date;
+  user_role: UserRole;
+}
+
 export const mapToUserInfo = (data: any): UserInfo => {
   if (!data) {
     return {
@@ -26,4 +33,12 @@ export const mapToUserInfo = (data: any): UserInfo => {
     join_time: new Date(data.join_time),
     user_role: data.user_role as UserRole,
   };
+};
+
+export const getPassword = (data: any): string => {
+  if (!data) {
+    return "";
+  }
+
+  return data.password;
 };
