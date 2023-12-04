@@ -8,8 +8,6 @@ const router = express.Router();
 router.get("/", async (req: Request, res: Response) => {
   const postHeaders = await getPostHeaders();
 
-  console.log("포스트 목록 가져오기:", postHeaders);
-
   return res
     .status(200)
     .json({ success: true, postHeaders: postHeaders, error: "" });

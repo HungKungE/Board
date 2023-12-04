@@ -23,7 +23,7 @@ export const createPost = async (
 export const getPostHeaders = async () => {
   const connection = await mysql2.createConnection(dbConfig);
   const query =
-    "SELECT p.post_id, u.nickname, p.create_time, p.title, SUM(IF(pl.likes = true, 1, 0)) AS likes, SUM(IF(pl.dislikes = true, 1, 0)) AS dislikes FROM post p INNER JOIN user_info u ON p.user_id = u.user_id LEFT JOIN post_likes pl ON p.post_id = pl.post_id GROUP BY p.post_id, u.nickname, p.create_time, p.title;";
+    "SELECT p.post_id, u.nickname, p.create_time, p.title, SUM(IF(pl.likes = true, 1, 0)) AS likes, SUM(IF(pl.dislikes = true, 1, 0)) AS dislikes FROM post p INNER JOIN user_info u ON p.user_id = u.user_id LEFT JOIN post_likes pl ON p.post_id = pl.post_id GROUP BY p.post_id, u.nickname, p.create_time, p.title ORDER BY p.create_time DESC;";
   try {
     const [rows] = await connection.query<RowDataPacket[]>(query);
     const postHeaders: PostHeader[] = rows.map((row) => {
