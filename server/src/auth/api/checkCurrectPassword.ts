@@ -12,7 +12,7 @@ import {
 const router = express.Router();
 router.post("/", sessionAuth, async (req: Request, res: Response) => {
   try {
-    const userInfo: SessionUserInfo | undefined = req.session.userInfo;
+    const userInfo: SessionUserInfo | undefined = req.userInfo;
     const password: string = req.body.password;
 
     // 입력값 검증 ============================================

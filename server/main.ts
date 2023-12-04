@@ -6,9 +6,11 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import session, { SessionData } from "express-session";
 import cors from "cors";
+import * as redis from "redis";
 // our_module
 import route from "./src/route/route";
 import { SessionUserInfo } from "./src/db/entity/user";
+import RedisStore from "connect-redis";
 
 dotenv.config();
 
@@ -23,19 +25,41 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // session storage
-// 로컬에서 실행시키려면 store: new session.MemoryStore() 로 바꾸기
 declare module "express-session" {
   export interface SessionData {
+    userInfo?: string;
+  }
+}
+
+declare module "express" {
+  export interface Request {
     userInfo?: SessionUserInfo;
   }
 }
 
+// Redis 연결 설정
+const redisClient = redis.createClient({
+  url: `redis://${process.env.REDIS_USERNAME}:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}/0`,
+  legacyMode: false,
+});
+redisClient.on("connect", () => {
+  console.info("Redis connected!");
+});
+redisClient.on("error", (err) => {
+  console.error("Redis Client Error", err);
+});
+redisClient.connect().then();
+
+// 로컬에서 실행시키려면 store: new session.MemoryStore() 로 바꾸기
 app.use(
   session({
     secret: process.env.SESSION_KEY || "your-secret-key",
     resave: false,
     saveUninitialized: false,
-    store: new session.MemoryStore(),
+    store: new RedisStore({
+      client: redisClient,
+      ttl: 30,
+    }),
     cookie: {
       secure: false,
       maxAge: 24 * 60 * 60 * 1000, // 1일

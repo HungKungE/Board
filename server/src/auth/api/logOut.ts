@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/", async (req: Request, res: Response) => {
   // 세션에서 정보 제거
-  delete req.session.userInfo;
+  req.session.destroy;
 
   res.status(200).json({
     success: true,

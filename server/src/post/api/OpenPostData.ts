@@ -6,7 +6,7 @@ import { createPost, getPostContent } from "../../db/context/postContext";
 const router = express.Router();
 
 router.get("/", sessionAuth, async (req: Request, res: Response) => {
-  const userInfo: SessionUserInfo | undefined = req.session.userInfo;
+  const userInfo: SessionUserInfo | undefined = req.userInfo;
   const postId: string | undefined = req.query.post_id as string;
 
   // 입력값 검증 ============================================

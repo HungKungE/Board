@@ -41,7 +41,7 @@ router.post("/", async (req: Request, res: Response) => {
   };
 
   // 서버 세션에 저장 =================================================
-  req.session.userInfo = sessionUserInfo;
+  req.session.userInfo = JSON.stringify(sessionUserInfo);
 
   // 성공 응답 ========================================================
   res.status(200).json({

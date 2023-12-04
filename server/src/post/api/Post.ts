@@ -8,7 +8,7 @@ const router = express.Router();
 // router.get("/", async (req: Request, res: Response) => {});
 
 router.post("/", sessionAuth, async (req: Request, res: Response) => {
-  const userInfo: SessionUserInfo | undefined = req.session.userInfo;
+  const userInfo: SessionUserInfo | undefined = req.userInfo;
   const title: string = req.body.title;
   const content: string = req.body.content;
 
