@@ -27,8 +27,7 @@ router.post("/", async (req: Request, res: Response) => {
 
   await createUserInfo(nickname, serializedPassword);
 
-  // 성공 응답 =======================================================
-
+  // 성공 응답 ========================================================
   res.status(200).json({
     success: true,
     error: "",

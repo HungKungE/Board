@@ -3,7 +3,7 @@ import SignUp from "./api/signUp";
 
 const router: Router = express.Router();
 
-// api - 로그인
+// 라우팅 =============================
 router.use("/signup", SignUp);
 
 export default router;

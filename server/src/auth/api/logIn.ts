@@ -1,14 +1,12 @@
 import express, { Request, Response } from "express";
 import { getUserInfo } from "../../db/context/userContext";
-import { mapToUserInfo } from "../../db/entity/user";
 import { serializePassword } from "../../utils/serialize";
 
 const router = express.Router();
 
-const checkPassword = (userInfo: any) => {};
-
 router.post("/", async (req: Request, res: Response) => {
   const { nickname, password } = req.body;
+  /* TODO : 입력값 검증 */
 
   // 닉네임 -> 사용자 정보 불러오기 ======================================
   const userInfo = await getUserInfo(nickname);
@@ -33,6 +31,9 @@ router.post("/", async (req: Request, res: Response) => {
     return;
   }
 
+  // 서버 세션에 저장 =================================================
+
+  // 성공 응답 ========================================================
   res.status(200).json({
     success: true,
     id: userInfo.nickname,
