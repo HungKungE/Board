@@ -31,16 +31,34 @@ const OpenPostModal: React.FunctionComponent<OpenPostMoalProps> = ({
         </button>
       </div>
       <div className="w-full h-full flex flex-col gap-[10px] p-[10px]">
-        <div className="flex flex-row gap-2 pt-[10px] items-center">
-          <div className="font-extralight text-center">글쓴이</div>
-          <div className="border-2 px-[10px] py-[5px]">
-            {postData.postHeader.nickname}
+        <div className="flex flex-row">
+          <div className="flex flex-col w-[60%]">
+            <div className="flex flex-row gap-2 pt-[10px] items-center">
+              <div className="font-extralight text-center">글쓴이</div>
+              <div className="border-2 px-[10px] py-[5px]">
+                {postData.postHeader.nickname}
+              </div>
+            </div>
+            <div className="flex flex-row gap-2 pt-[10px] items-center">
+              <div className="font-extralight text-center">글 쓴 시간</div>
+              <div className="border-2 px-[10px] py-[5px]">
+                {createTime.toISOString()}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-row gap-2 pt-[10px] items-center">
-          <div className="font-extralight text-center">글 쓴 시간</div>
-          <div className="border-2 px-[10px] py-[5px]">
-            {createTime.toISOString()}
+          <div className="flex flex-row w-[40%]">
+            <button className="flex flex-col w-full h-full text-center justify-center items-center rounded-sm border-2 bg-red-400">
+              <div className="text-[50px] h-full flex text-center justify-center items-center">
+                {postData.postHeader.likes}
+              </div>
+              <div>{"좋아요"}</div>
+            </button>
+            <button className="flex flex-col w-full h-full text-center justify-center items-center rounded-sm border-2 bg-blue-400">
+              <div className="text-[50px] h-full flex text-center justify-center items-center">
+                {postData.postHeader.dislikes}
+              </div>
+              <div>{"싫어요"}</div>
+            </button>
           </div>
         </div>
         <div className="flex flex-col w-full h-full gap-2 pt-[10px] items-center">
