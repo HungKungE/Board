@@ -1,16 +1,26 @@
 import { PostHeader } from "../../../../server/src/db/entity/post";
 
 export interface BoardItemProps {
+  onClick: (postId: number) => void;
   boardItem: PostHeader;
 }
 
-const BoardItem: React.FunctionComponent<BoardItemProps> = ({ boardItem }) => {
+const BoardItem: React.FunctionComponent<BoardItemProps> = ({
+  boardItem,
+  onClick,
+}) => {
   const createTime: Date = new Date(boardItem.create_time);
 
   return (
     <div className="flex flex-row w-full h-[100px]">
       <div className="flex flex-col w-[70%]">
-        <div>{boardItem.title}</div>
+        <div
+          onClick={() => {
+            onClick(boardItem.post_id);
+          }}
+        >
+          {boardItem.title}
+        </div>
         <div className="flex flex-row gap-1">
           <div>{boardItem.nickname}</div>
           <div>{createTime.toISOString()}</div>

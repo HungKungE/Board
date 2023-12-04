@@ -3,15 +3,36 @@ import PlusIcon from "../../Icons/Imgs/plus-svgrepo-com (2).svg";
 import BoardItem from "./BoardItem";
 import { isDevMode } from "../../Utils/detectMode";
 import { prePostList } from "../../Mock/mockedPost";
-import { sendGetPostHeadersRequest } from "../../API/post";
-import { PostHeader } from "../../../../server/src/db/entity/post";
+import {
+  sendGetOpenPostDataRequest,
+  sendGetPostHeadersRequest,
+} from "../../API/post";
+import { PostData, PostHeader } from "../../../../server/src/db/entity/post";
 import UploadPostModal from "./Modal/UploadPostModal";
+import OpenPostModal from "./Modal/OpenPostModal";
+
+enum MODAL {
+  UPLOAD,
+  OPEN,
+  CLOSE,
+}
 
 const Board: React.FunctionComponent = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<MODAL>(MODAL.CLOSE);
   const [doFetch, setDoFetch] = useState<boolean>(false);
 
   const [boardItems, setBoardItems] = useState<PostHeader[]>([]);
+  const [openPostData, setOpenPostData] = useState<PostData>({
+    postHeader: {
+      post_id: 0,
+      nickname: "",
+      create_time: new Date(),
+      title: "",
+      likes: 0,
+      dislikes: 0,
+    },
+    content: "",
+  });
 
   useEffect(() => {
     if (openModal) {
@@ -41,20 +62,29 @@ const Board: React.FunctionComponent = () => {
 
   return (
     <div className="flex flex-col w-full h-full px-[30px] py-[20px] items-center">
-      {openModal && (
+      {openModal === MODAL.UPLOAD && (
         <UploadPostModal
           closeModal={() => {
-            setOpenModal(false);
+            setOpenModal(MODAL.CLOSE);
             setDoFetch(false);
           }}
         ></UploadPostModal>
+      )}
+      {openModal === MODAL.OPEN && (
+        <OpenPostModal
+          postData={openPostData}
+          closeModal={() => {
+            setOpenModal(MODAL.CLOSE);
+            setDoFetch(false);
+          }}
+        ></OpenPostModal>
       )}
       <div className="flex flex-row w-full h-[40px] border-solid border-2 border-white border-opacity-20">
         <div className="px-[10px] h-full left-0">
           <div
             className="w-[100px] h-full flex flex-row hover:cursor-pointer"
             onClick={() => {
-              setOpenModal(true);
+              setOpenModal(MODAL.UPLOAD);
             }}
           >
             <img className="w-[30px]" alt="plus_icon" src={PlusIcon}></img>
@@ -69,7 +99,21 @@ const Board: React.FunctionComponent = () => {
         {doFetch &&
           boardItems.map((board) => {
             return (
-              <BoardItem key={board.post_id} boardItem={board}></BoardItem>
+              <BoardItem
+                key={board.post_id}
+                boardItem={board}
+                onClick={(post_id: number) => {
+                  sendGetOpenPostDataRequest(post_id).then((res) => {
+                    if (!res.success) {
+                      console.log(res.error);
+                      return;
+                    }
+
+                    setOpenPostData(res.openPostData);
+                    setOpenModal(MODAL.OPEN);
+                  });
+                }}
+              ></BoardItem>
             );
           })}
       </div>

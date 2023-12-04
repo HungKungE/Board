@@ -22,6 +22,11 @@ export interface PostHeader {
   dislikes: number;
 }
 
+export interface PostData {
+  postHeader: PostHeader;
+  content: string;
+}
+
 export const mapToPost = (data: any): Post => {
   if (!data) {
     return {
