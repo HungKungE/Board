@@ -1,13 +1,7 @@
-export interface Post {
-  post_id: number;
-  title: string;
-  nickname: string;
-  likes: number;
-  dislikes: number;
-}
+import { PostHeader } from "../../../../server/src/db/entity/post";
 
 export interface BoardItemProps {
-  boardItem: Post;
+  boardItem: PostHeader;
 }
 
 const BoardItem: React.FunctionComponent<BoardItemProps> = ({ boardItem }) => {
@@ -15,7 +9,10 @@ const BoardItem: React.FunctionComponent<BoardItemProps> = ({ boardItem }) => {
     <div className="flex flex-row w-full h-[100px]">
       <div className="flex flex-col w-[70%]">
         <div>{boardItem.title}</div>
-        <div>{boardItem.nickname}</div>
+        <div className="flex flex-row gap-1">
+          <div>{boardItem.nickname}</div>
+          <div>{boardItem.create_time.toISOString()}</div>
+        </div>
       </div>
       <div className="flex flex-col w-[30%]">
         <div>좋아요 : {boardItem.likes}</div>

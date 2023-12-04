@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export const sendGetRequest = async (path: string) => {
+  const response = await axios.get(path);
+  return response.data;
+};
+
 export const sendPostRequest = async (path: string, sendData: any | null) => {
   const response = await axios.post(path, sendData);
   return response.data;

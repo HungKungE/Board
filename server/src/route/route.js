@@ -6,8 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const auth_1 = __importDefault(require("../auth/auth"));
 const user_1 = __importDefault(require("../user/user"));
+const post_1 = __importDefault(require("../post/post"));
 const router = express_1.default.Router();
 // api 엔드 포인트 등록
 router.use("/auth", auth_1.default);
 router.use("/user", user_1.default);
+router.use("/post", post_1.default);
 exports.default = router;

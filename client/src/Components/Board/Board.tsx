@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import PlusIcon from "../../Icons/Imgs/plus-svgrepo-com (2).svg";
-import UploadIconsModal from "./Modal/UploadIconsModal";
-import BoardItem, { Post } from "./BoardItem";
+import BoardItem from "./BoardItem";
 import { isDevMode } from "../../Utils/detectMode";
 import { prePostList } from "../../Mock/mockedPost";
+import { sendGetPostHeadersRequest } from "../../API/post";
+import { PostHeader } from "../../../../server/src/db/entity/post";
+import UploadPostModal from "./Modal/UploadPostModal";
 
 const Board: React.FunctionComponent = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [doFetch, setDoFetch] = useState<boolean>(false);
 
-  const [boardItems, setBoardItems] = useState<Post[]>([]);
+  const [boardItems, setBoardItems] = useState<PostHeader[]>([]);
 
   useEffect(() => {
     if (openModal) {
@@ -27,18 +29,25 @@ const Board: React.FunctionComponent = () => {
       setDoFetch(true);
     } else {
       /* TODO : 실제 Post 정보 가져와서 boardItems 채우기 */
-      return;
+      sendGetPostHeadersRequest().then((res) => {
+        if (!res.success) {
+          console.log(res.error);
+          return;
+        }
+        setBoardItems(prePostList);
+        setDoFetch(true);
+      });
     }
   }, [doFetch]);
 
   return (
     <div className="flex flex-col w-full h-full px-[30px] py-[20px] items-center">
       {openModal && (
-        <UploadIconsModal
+        <UploadPostModal
           closeModal={() => {
             setOpenModal(false);
           }}
-        ></UploadIconsModal>
+        ></UploadPostModal>
       )}
       <div className="flex flex-row w-full h-[40px] border-solid border-2 border-white border-opacity-20">
         <div className="px-[10px] h-full left-0">

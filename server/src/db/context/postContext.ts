@@ -1,6 +1,6 @@
 import mysql2, { RowDataPacket } from "mysql2/promise";
 import { dbConfig } from "../dbConnect";
-import { Post, mapToPost } from "../entity/post";
+import { Post, PostHeader, mapToPost, mapToPostHeader } from "../entity/post";
 
 export const createPost = async (
   userId: number,
@@ -8,11 +8,11 @@ export const createPost = async (
   content: string
 ) => {
   const connection = await mysql2.createConnection(dbConfig);
-  const insertQuery =
-    "INSERT INTO post (user_id, create_time, title, conntent) VALUES (?, NOW(), ?, ?)";
+  const insertPostQuery =
+    "INSERT INTO post (user_id, create_time, title, content) VALUES (?, NOW(), ?, ?)";
 
   try {
-    await connection.query(insertQuery, [userId, title, content]);
+    await connection.query(insertPostQuery, [userId, title, content]);
   } catch (error) {
     throw error;
   } finally {
@@ -20,16 +20,16 @@ export const createPost = async (
   }
 };
 
-export const getPosts = async () => {
+export const getPostHeaders = async () => {
   const connection = await mysql2.createConnection(dbConfig);
-  const query = "SELECT * FROM post";
-
+  const query =
+    "SELECT p.post_id, u.nickname, p.create_time, p.title, SUM(IF(pl.likes = true, 1, 0)) AS likes, SUM(IF(pl.dislikes = true, 1, 0)) AS dislikes FROM post p INNER JOIN user_info u ON p.user_id = u.user_id LEFT JOIN post_likes pl ON p.post_id = pl.post_id GROUP BY p.post_id, u.nickname, p.create_time, p.title;";
   try {
     const [rows] = await connection.query<RowDataPacket[]>(query);
-    const posts: Post[] = rows.map((row) => {
-      return mapToPost(row);
+    const postHeaders: PostHeader[] = rows.map((row) => {
+      return mapToPostHeader(row);
     });
-    return posts;
+    return postHeaders;
   } catch (error) {
     throw error;
   } finally {
