@@ -5,13 +5,15 @@ export interface BoardItemProps {
 }
 
 const BoardItem: React.FunctionComponent<BoardItemProps> = ({ boardItem }) => {
+  const createTime: Date = new Date(boardItem.create_time);
+
   return (
     <div className="flex flex-row w-full h-[100px]">
       <div className="flex flex-col w-[70%]">
         <div>{boardItem.title}</div>
         <div className="flex flex-row gap-1">
           <div>{boardItem.nickname}</div>
-          <div>{boardItem.create_time.toISOString()}</div>
+          <div>{createTime.toISOString()}</div>
         </div>
       </div>
       <div className="flex flex-col w-[30%]">

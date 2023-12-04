@@ -28,13 +28,12 @@ const Board: React.FunctionComponent = () => {
       setBoardItems(prePostList);
       setDoFetch(true);
     } else {
-      /* TODO : 실제 Post 정보 가져와서 boardItems 채우기 */
       sendGetPostHeadersRequest().then((res) => {
         if (!res.success) {
           console.log(res.error);
           return;
         }
-        setBoardItems(prePostList);
+        setBoardItems(res.postHeaders);
         setDoFetch(true);
       });
     }
