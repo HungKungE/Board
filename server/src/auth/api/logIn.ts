@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { getUserInfo } from "../../db/context/userContext";
 import { serializePassword } from "../../utils/serialize";
+import session from "express-session";
 
 const router = express.Router();
 
@@ -32,12 +33,15 @@ router.post("/", async (req: Request, res: Response) => {
   }
 
   // 서버 세션에 저장 =================================================
-
+  req.session.nickname = userInfo.nickname;
+  req.session.userId = userInfo.user_id;
+  req.session.login_time = new Date();
   // 성공 응답 ========================================================
   res.status(200).json({
     success: true,
     id: userInfo.nickname,
     login_time: new Date(),
+    is_login: true,
     error: "",
   });
 });

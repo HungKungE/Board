@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import path from "path";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import session from "express-session";
+import session, { SessionData } from "express-session";
 import cors from "cors";
 // our_module
 import route from "./src/route/route";
@@ -23,6 +23,14 @@ app.use(cors());
 
 // session storage
 // 로컬에서 실행시키려면 store: new session.MemoryStore() 로 바꾸기
+declare module "express-session" {
+  export interface SessionData {
+    nickname?: string;
+    userId?: number;
+    login_time?: Date;
+  }
+}
+
 app.use(
   session({
     secret: process.env.SESSION_KEY || "your-secret-key",
