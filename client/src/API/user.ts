@@ -23,7 +23,7 @@ export const sendIdCheckRequest = (userId: string) => {
 };
 
 export const sendPasswordCheckRequest = (currentPassword: string) => {
-  return sendPostRequest("/user/check/password", { password: currentPassword });
+  return sendPostRequest("/auth/check/password", { password: currentPassword });
 };
 
 export const sendUpdatePasswordRequest = (newPassword: string) => {

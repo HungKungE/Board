@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { sendUpdatePasswordRequest } from "../../API/user";
+import {
+  sendPasswordCheckRequest,
+  sendUpdatePasswordRequest,
+} from "../../API/user";
 import { checkPassword } from "../Util/Util";
+import { useNavigate } from "react-router-dom";
 
 const UpdatePassword: React.FunctionComponent = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     current_password: "",
     new_password: {
@@ -10,6 +15,8 @@ const UpdatePassword: React.FunctionComponent = () => {
       check: "",
     },
   });
+
+  const [passwordChecked, setPasswordChecked] = useState<boolean>(false);
 
   const btnStyle =
     "border border-white border-opacity-20 font-pretendardBold w-full m-[30px] px-4 py-2 rounded-[15px] text-white";
@@ -33,6 +40,7 @@ const UpdatePassword: React.FunctionComponent = () => {
         return;
       }
       console.log("변경 완료!");
+      navigate("/home");
     });
   };
 
@@ -48,15 +56,38 @@ const UpdatePassword: React.FunctionComponent = () => {
         비밀번호 수정
       </div>
       <div className="flex flex-col w-full justify-center items-center px-[30px]">
-        <input
-          className={inputStyle}
-          value={userData.current_password}
-          type="password"
-          placeholder="현재 비밀번호"
-          onChange={(e) => {
-            setUserData({ ...userData, current_password: e.target.value });
-          }}
-        />
+        <div className="flex flex-row w-full gap-4">
+          <input
+            className={inputStyle}
+            value={userData.current_password}
+            type="password"
+            placeholder="현재 비밀번호"
+            onChange={(e) => {
+              setUserData({ ...userData, current_password: e.target.value });
+            }}
+          />
+          <button
+            className="w-[100px] px-[10px] my-[10px] rounded-[15px] bg-slate-500 text-white"
+            onClick={() => {
+              if (!checkPassword(userData.current_password)) {
+                console.log("비밀번호 정책 위반!");
+                return;
+              }
+
+              sendPasswordCheckRequest(userData.current_password).then(
+                (res) => {
+                  if (!res.success) {
+                    console.log(res.error);
+                    return;
+                  }
+                  setPasswordChecked(res.success);
+                }
+              );
+            }}
+          >
+            중복확인
+          </button>
+        </div>
         <input
           className={inputStyle}
           type="password"
@@ -85,6 +116,7 @@ const UpdatePassword: React.FunctionComponent = () => {
       <div className="absolute bottom-0 w-full h-fit flex flex-row">
         <button
           className={btnStyle}
+          disabled={!passwordChecked}
           onClick={() => {
             Update();
           }}
