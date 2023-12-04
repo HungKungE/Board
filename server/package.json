@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc && cd ../client && npm run build && cd ../server",
+    "build": "npx tsc",
+    "build:all": "npx tsc && cd ../client && npm run build && cd ../server",
     "start": "node main.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/main.js\""
   },

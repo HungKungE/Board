@@ -15,10 +15,9 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ setPageType }) => {
   const [userData, setUserData] = useState<SignUpUserInfo>({
     nickname: "",
     password: { value: "", check: "" },
-    email: { local_part: "", domain: "" },
   });
 
-  const [idDuplicateCheck, setIdDuplicateCheck] = useState<boolean>(false);
+  const [idDuplicateCheck, setIdDuplicateCheck] = useState<boolean>(true);
 
   const btnStyle =
     "border border-white border-opacity-20 font-pretendardBold w-full m-[30px] px-4 py-2 rounded-[15px] text-white";
@@ -31,12 +30,12 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ setPageType }) => {
       return;
     }
 
-    if (checkPassword(userData.password.value)) {
+    if (!checkPassword(userData.password.value)) {
       console.log("비밀번호 정책 위반!");
       return;
     }
 
-    if (checkId(userData.nickname)) {
+    if (!checkId(userData.nickname)) {
       console.log("아이디 정책 위반!");
       return;
     }
@@ -110,31 +109,6 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ setPageType }) => {
             });
           }}
         />
-        <div className="flex flex-row w-full gap-4">
-          <input
-            className={inputStyle}
-            value={userData.email.local_part}
-            placeholder="이메일"
-            onChange={(e) => {
-              setUserData({
-                ...userData,
-                email: { ...userData.email, local_part: e.target.value },
-              });
-            }}
-          />
-          <div className="flex text-center justify-center items-center">@</div>
-          <input
-            className={inputStyle}
-            value={userData.email.domain}
-            placeholder="도메인"
-            onChange={(e) => {
-              setUserData({
-                ...userData,
-                email: { ...userData.email, domain: e.target.value },
-              });
-            }}
-          />
-        </div>
       </div>
       <div className="absolute bottom-0 w-full h-fit flex flex-row">
         <button
