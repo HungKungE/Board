@@ -1,4 +1,4 @@
-import { PostHeader } from "../../../../server/src/db/entity/post";
+import { PostHeader } from "../../../../server/src/entity/post";
 
 export interface BoardItemProps {
   onClick: (postId: number) => void;

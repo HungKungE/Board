@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import sessionAuth from "../../api/checkSession";
 import { isValidPassword } from "../../utils/validate";
-import { SessionUserInfo, getPassword } from "../../db/entity/user";
+import { SessionUserInfo, getPassword } from "../../entity/user";
 import { serializePassword } from "../../utils/serialize";
 import {
   getUserInfo,

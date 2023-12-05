@@ -1,3 +1,4 @@
+// Post Entity ======================================================
 export interface Post {
   post_id: number;
   user_id: number;
@@ -13,6 +14,24 @@ export interface PostLike {
   dislikes: boolean;
 }
 
+export interface Comment {
+  comment_id: number;
+  user_id: number;
+  post_id: number;
+  create_time: Date;
+  content: string;
+}
+
+export interface CommentLike {
+  comment_id: number;
+  post_id: number;
+  user_id: number;
+  likes: boolean;
+  dislikes: boolean;
+}
+
+// 서비스에 필요한 파생 데이터 타입 ====================================
+
 export interface PostHeader {
   post_id: number;
   nickname: string;
@@ -27,6 +46,7 @@ export interface PostData {
   content: string;
 }
 
+// Post Method ======================================================
 export const mapToPost = (data: any): Post => {
   if (!data) {
     return {
@@ -64,8 +84,8 @@ export const mapToPostHeader = (data: any): PostHeader => {
     nickname: data.nickname,
     create_time: new Date(data.create_time),
     title: data.title,
-    likes: data.likes, // 좋아요 정보가 있는 경우에만 true로 설정
-    dislikes: data.dislikes, // 싫어요 정보가 있는 경우에만 true로 설정
+    likes: data.likes,
+    dislikes: data.dislikes,
   };
 };
 

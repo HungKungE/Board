@@ -6,7 +6,7 @@ import {
   getContent,
   mapToPost,
   mapToPostHeader,
-} from "../entity/post";
+} from "../../entity/post";
 
 export const createPost = async (
   userId: number,

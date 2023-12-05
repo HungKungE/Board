@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import { isLoginSessionExpired } from "../utils/time";
 import { userInfo } from "os";
-import { SessionUserInfo } from "../db/entity/user";
+import { SessionUserInfo } from "../entity/user";
 
 dotenv.config();
 

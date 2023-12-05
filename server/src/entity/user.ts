@@ -1,5 +1,4 @@
-export type UserRole = "admin" | "user";
-
+// User Entity ======================================================
 export interface UserInfo {
   user_id: number;
   nickname: string;
@@ -8,6 +7,9 @@ export interface UserInfo {
   user_role: UserRole;
 }
 
+export type UserRole = "admin" | "user";
+// 서비스에 필요한 파생 데이터 타입 ====================================
+
 export interface SessionUserInfo {
   user_id: number;
   nickname: string;
@@ -15,6 +17,7 @@ export interface SessionUserInfo {
   user_role: UserRole;
 }
 
+// User Method ======================================================
 export const mapToUserInfo = (data: any): UserInfo => {
   if (!data) {
     return {

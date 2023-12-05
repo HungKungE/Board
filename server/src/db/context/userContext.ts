@@ -1,6 +1,6 @@
 import mysql2, { RowDataPacket } from "mysql2/promise";
 import { dbConfig } from "../dbConnect";
-import { getPassword, mapToUserInfo } from "../entity/user";
+import { getPassword, mapToUserInfo } from "../../entity/user";
 
 export const getUserInfo = async (nickname: string) => {
   const connection = await mysql2.createConnection(dbConfig);

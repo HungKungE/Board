@@ -7,7 +7,7 @@ import {
   sendGetOpenPostDataRequest,
   sendGetPostHeadersRequest,
 } from "../../API/post";
-import { PostData, PostHeader } from "../../../../server/src/db/entity/post";
+import { PostData, PostHeader } from "../../../../server/src/entity/post";
 import UploadPostModal from "./Modal/UploadPostModal";
 import OpenPostModal from "./Modal/OpenPostModal";
 

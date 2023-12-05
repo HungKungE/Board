@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { createUserInfo, getUserInfo } from "../../db/context/userContext";
-import { UserInfo, mapToUserInfo } from "../../db/entity/user";
+import { UserInfo, mapToUserInfo } from "../../entity/user";
 import { serializePassword } from "../../utils/serialize";
 
 const router = express.Router();

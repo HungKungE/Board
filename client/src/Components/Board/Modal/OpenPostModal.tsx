@@ -1,4 +1,4 @@
-import { PostData } from "../../../../../server/src/db/entity/post";
+import { PostData } from "../../../../../server/src/entity/post";
 
 interface OpenPostMoalProps {
   postData: PostData;

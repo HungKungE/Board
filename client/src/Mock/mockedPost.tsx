@@ -1,4 +1,4 @@
-import { PostHeader } from "../../../server/src/db/entity/post";
+import { PostHeader } from "../../../server/src/entity/post";
 
 export const prePostList: PostHeader[] = [
   {

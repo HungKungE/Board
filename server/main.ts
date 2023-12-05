@@ -9,7 +9,7 @@ import cors from "cors";
 import * as redis from "redis";
 // our_module
 import route from "./src/route/route";
-import { SessionUserInfo } from "./src/db/entity/user";
+import { SessionUserInfo } from "./src/entity/user";
 import RedisStore from "connect-redis";
 
 dotenv.config();

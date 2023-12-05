@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { getUserInfo } from "../../db/context/userContext";
 import { serializePassword } from "../../utils/serialize";
 import session from "express-session";
-import { SessionUserInfo } from "../../db/entity/user";
+import { SessionUserInfo } from "../../entity/user";
 
 const router = express.Router();
 
