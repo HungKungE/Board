@@ -5,6 +5,11 @@ export interface PostRequest {
   content: string;
 }
 
+export interface CommentRequest {
+  post_id: number;
+  content: string;
+}
+
 export const sendGetPostHeadersRequest = () => {
   return sendGetRequest("/post/header");
 };

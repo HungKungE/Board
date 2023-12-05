@@ -1,4 +1,9 @@
-import { PostData } from "../../../../../server/src/entity/post";
+import { useEffect, useState } from "react";
+import { CommentData, PostData } from "../../../../../server/src/entity/post";
+import { isDevMode } from "../../../Utils/detectMode";
+import CommentItem from "../Comment/CommentItem";
+import { preCommentList } from "../../../Mock/mockedComment";
+import { CommentRequest } from "../../../API/post";
 
 interface OpenPostMoalProps {
   postData: PostData;
@@ -10,6 +15,47 @@ const OpenPostModal: React.FunctionComponent<OpenPostMoalProps> = ({
   closeModal,
 }) => {
   const createTime: Date = new Date(postData.postHeader.create_time);
+
+  const [doFetch, setDoFetch] = useState<boolean>(false);
+  const [commentDatas, setCommentDatas] = useState<CommentData[]>([]);
+  const [uploadComment, setUploadComment] = useState<CommentRequest>({
+    post_id: postData.postHeader.post_id,
+    content: "",
+  });
+
+  const fetchCommentData = () => {
+    if (!doFetch || !commentDatas.length) {
+      return (
+        <div className="flex h-[40%] items-center justify-center text-2xl text-gray-500">
+          아직 댓글이 없어요!
+        </div>
+      );
+    } else {
+      return commentDatas.map((commentData) => {
+        return (
+          <CommentItem
+            addLikes={(comment_id: number) => {}}
+            addDislikes={(comment_id: number) => {}}
+            commentData={commentData}
+          ></CommentItem>
+        );
+      });
+    }
+  };
+  useEffect(() => {
+    if (doFetch) {
+      return;
+    }
+
+    if (isDevMode()) {
+      /* mock Data 채우기 */
+      setCommentDatas(preCommentList);
+    } else {
+      /* 실제 data 채우기 */
+    }
+
+    setDoFetch(true);
+  }, [doFetch]);
 
   return (
     <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[800px] h-[800px] bg-white rounded-xl flex flex-col items-center">
@@ -61,10 +107,28 @@ const OpenPostModal: React.FunctionComponent<OpenPostMoalProps> = ({
             </button>
           </div>
         </div>
-        <div className="flex flex-col w-full h-full gap-2 pt-[10px] items-center">
+        <div className="flex flex-col w-full h-[50%] gap-2 pt-[10px] items-center">
           <div className="w-full h-full border-4 px-[10px] py-[5px]">
             {postData.content}
           </div>
+        </div>
+        <div className="flex flex-row w-full h-[10%] pt-[10px] items-center">
+          <input
+            className="border-2 w-[70%] px-[10px] py-[5px]"
+            value={uploadComment.content}
+            onChange={(e) => {
+              setUploadComment({
+                ...uploadComment,
+                content: e.target.value,
+              });
+            }}
+          />
+          <button className="border-2 w-[30%] px-[10px] py-[5px]">
+            댓글달기
+          </button>
+        </div>
+        <div className="flex flex-col w-full h-[40%] gap-2 pt-[10px] items-center overflow-y-scroll">
+          {fetchCommentData()}
         </div>
       </div>
     </div>

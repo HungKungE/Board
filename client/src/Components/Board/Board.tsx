@@ -35,12 +35,6 @@ const Board: React.FunctionComponent = () => {
   });
 
   useEffect(() => {
-    if (openModal) {
-      return;
-    }
-  }, [openModal]);
-
-  useEffect(() => {
     if (isDevMode()) {
       if (doFetch) {
         return;
@@ -103,17 +97,25 @@ const Board: React.FunctionComponent = () => {
                 key={board.post_id}
                 boardItem={board}
                 onClick={(post_id: number) => {
-                  sendGetOpenPostDataRequest(post_id).then((res) => {
-                    if (!res.success) {
-                      console.log(res.error);
-                      return;
-                    }
+                  if (isDevMode()) {
                     setOpenPostData({
                       postHeader: board,
-                      content: res.content,
+                      content: "테스트 내용입니다람쥐공중제비3바퀴",
                     });
                     setOpenModal(MODAL.OPEN);
-                  });
+                  } else {
+                    sendGetOpenPostDataRequest(post_id).then((res) => {
+                      if (!res.success) {
+                        console.log(res.error);
+                        return;
+                      }
+                      setOpenPostData({
+                        postHeader: board,
+                        content: res.content,
+                      });
+                      setOpenModal(MODAL.OPEN);
+                    });
+                  }
                 }}
               ></BoardItem>
             );

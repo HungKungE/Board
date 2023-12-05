@@ -46,6 +46,16 @@ export interface PostData {
   content: string;
 }
 
+export interface CommentData {
+  comment_id: number;
+  nickname: string;
+  post_id: number;
+  create_time: Date;
+  likes: number;
+  dislikes: number;
+  content: string;
+}
+
 // Post Method ======================================================
 export const mapToPost = (data: any): Post => {
   if (!data) {
