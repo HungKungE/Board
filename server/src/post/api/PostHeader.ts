@@ -1,6 +1,4 @@
 import express, { Request, Response } from "express";
-import sessionAuth from "../../api/checkSession";
-import { SessionUserInfo } from "../../entity/user";
 import { getPostHeaders } from "../../db/context/postContext";
 
 const router = express.Router();

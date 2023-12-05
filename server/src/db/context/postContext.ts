@@ -1,9 +1,11 @@
 import mysql2, { RowDataPacket } from "mysql2/promise";
 import { dbConfig } from "../dbConnect";
 import {
+  CommentData,
   Post,
   PostHeader,
   getContent,
+  mapToCommentData,
   mapToPost,
   mapToPostHeader,
 } from "../../entity/post";
@@ -50,6 +52,41 @@ export const getPostHeaders = async () => {
       return mapToPostHeader(row);
     });
     return postHeaders;
+  } catch (error) {
+    throw error;
+  } finally {
+    await connection.end();
+  }
+};
+
+export const createComment = async (
+  userId: number,
+  postId: number,
+  content: string
+) => {
+  const connection = await mysql2.createConnection(dbConfig);
+  const insertPostQuery =
+    "INSERT INTO comment (user_id, post_id, create_time, content) VALUES (?, ?, NOW(), ?)";
+
+  try {
+    await connection.query(insertPostQuery, [userId, postId, content]);
+  } catch (error) {
+    throw error;
+  } finally {
+    await connection.end();
+  }
+};
+
+export const getComments = async (post_id: number) => {
+  const connection = await mysql2.createConnection(dbConfig);
+  const query =
+    "SELECT c.comment_id, u.nickname, c.post_id, c.create_time, SUM(CASE WHEN cl.likes THEN 1 ELSE 0 END) AS likes, SUM(CASE WHEN cl.dislikes THEN 1 ELSE 0 END) AS dislikes, c.content FROM comment c INNER JOIN user_info u ON c.user_id = u.user_id LEFT JOIN comment_likes cl ON c.comment_id = cl.comment_id AND c.post_id = cl.post_id AND c.user_id = cl.user_id WHERE c.post_id = ? GROUP BY c.comment_id, u.nickname, c.post_id, c.create_time, c.content ORDER BY c.create_time DESC;";
+  try {
+    const [rows] = await connection.query<RowDataPacket[]>(query, [post_id]);
+    const comments: CommentData[] = rows.map((row) => {
+      return mapToCommentData(row);
+    });
+    return comments;
   } catch (error) {
     throw error;
   } finally {

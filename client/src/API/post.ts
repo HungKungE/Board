@@ -21,3 +21,11 @@ export const sendGetOpenPostDataRequest = (post_id: number) => {
 export const sendCreatePostRequest = (postRequest: PostRequest) => {
   return sendPostRequest("/post/post", postRequest);
 };
+
+export const sendGetCommentDatasRequest = (post_id: number) => {
+  return sendGetRequest(`/post/comment?post_id=${post_id}`);
+};
+
+export const sendCreateCommentRequest = (commentRequest: CommentRequest) => {
+  return sendPostRequest("/post/comment", commentRequest);
+};

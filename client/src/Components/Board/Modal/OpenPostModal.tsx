@@ -3,7 +3,11 @@ import { CommentData, PostData } from "../../../../../server/src/entity/post";
 import { isDevMode } from "../../../Utils/detectMode";
 import CommentItem from "../Comment/CommentItem";
 import { preCommentList } from "../../../Mock/mockedComment";
-import { CommentRequest } from "../../../API/post";
+import {
+  CommentRequest,
+  sendCreateCommentRequest,
+  sendGetCommentDatasRequest,
+} from "../../../API/post";
 
 interface OpenPostMoalProps {
   postData: PostData;
@@ -15,7 +19,7 @@ const OpenPostModal: React.FunctionComponent<OpenPostMoalProps> = ({
   closeModal,
 }) => {
   const createTime: Date = new Date(postData.postHeader.create_time);
-
+  const postId: number = postData.postHeader.post_id;
   const [doFetch, setDoFetch] = useState<boolean>(false);
   const [commentDatas, setCommentDatas] = useState<CommentData[]>([]);
   const [uploadComment, setUploadComment] = useState<CommentRequest>({
@@ -42,6 +46,7 @@ const OpenPostModal: React.FunctionComponent<OpenPostMoalProps> = ({
       });
     }
   };
+
   useEffect(() => {
     if (doFetch) {
       return;
@@ -52,10 +57,18 @@ const OpenPostModal: React.FunctionComponent<OpenPostMoalProps> = ({
       setCommentDatas(preCommentList);
     } else {
       /* 실제 data 채우기 */
+      sendGetCommentDatasRequest(postId).then((res) => {
+        if (res.error) {
+          console.log(res.error);
+          return;
+        }
+
+        setCommentDatas(res.commentDatas);
+      });
     }
 
     setDoFetch(true);
-  }, [doFetch]);
+  }, [doFetch, postId]);
 
   return (
     <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[800px] h-[800px] bg-white rounded-xl flex flex-col items-center">
@@ -123,7 +136,27 @@ const OpenPostModal: React.FunctionComponent<OpenPostMoalProps> = ({
               });
             }}
           />
-          <button className="border-2 w-[30%] px-[10px] py-[5px]">
+          <button
+            className="border-2 w-[30%] px-[10px] py-[5px]"
+            onClick={() => {
+              if (isDevMode()) {
+                return;
+              }
+
+              if (!uploadComment.content.length) {
+                return;
+              }
+
+              sendCreateCommentRequest(uploadComment).then((res) => {
+                if (res.error) {
+                  console.log(res.error);
+                  return;
+                }
+              });
+
+              setDoFetch(false);
+            }}
+          >
             댓글달기
           </button>
         </div>

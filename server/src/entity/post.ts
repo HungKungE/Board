@@ -99,6 +99,30 @@ export const mapToPostHeader = (data: any): PostHeader => {
   };
 };
 
+export const mapToCommentData = (data: any): CommentData => {
+  if (!data) {
+    return {
+      comment_id: -1,
+      nickname: "",
+      post_id: -1,
+      create_time: new Date(),
+      likes: 0,
+      dislikes: 0,
+      content: "",
+    };
+  }
+
+  return {
+    comment_id: data.comment_id,
+    nickname: data.nickname,
+    post_id: data.post_id,
+    create_time: new Date(data.create_time),
+    likes: data.likes,
+    dislikes: data.dislikes,
+    content: data.content,
+  };
+};
+
 export const getContent = (data: any): string => {
   if (!data) {
     return "";
