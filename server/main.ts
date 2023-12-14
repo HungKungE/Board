@@ -1,16 +1,17 @@
-// dependency
+// dependency =======================================
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import path from "path";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import session, { SessionData } from "express-session";
+import session from "express-session";
 import cors from "cors";
 import * as redis from "redis";
-// our_module
+import RedisStore from "connect-redis";
+// our_module =======================================
 import route from "./src/route/route";
 import { SessionUserInfo } from "./src/entity/user";
-import RedisStore from "connect-redis";
+import { errorHandler } from "./src/api/error";
 
 dotenv.config();
 
@@ -20,8 +21,6 @@ const port = process.env.PORT || 5000;
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// setting
 app.use(cors());
 
 // session storage
@@ -69,6 +68,7 @@ app.use(
 
 // api 엔드 포인트 등록 -> api 요청을 라우팅 처리
 app.use("", route);
+app.use(errorHandler);
 
 // build 파일 접근
 app.use(express.static(`${__dirname}/../client/build`));
