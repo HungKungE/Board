@@ -152,9 +152,9 @@ const OpenPostModal: React.FunctionComponent<OpenPostMoalProps> = ({
                   console.log(res.error);
                   return;
                 }
-              });
 
-              setDoFetch(false);
+                setDoFetch(false);
+              });
             }}
           >
             댓글달기
