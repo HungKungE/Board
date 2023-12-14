@@ -80,7 +80,7 @@ export const createComment = async (
 export const getComments = async (post_id: number) => {
   const connection = await mysql2.createConnection(dbConfig);
   const query =
-    "SELECT c.comment_id, u.nickname, c.post_id, c.create_time, SUM(CASE WHEN cl.likes THEN 1 ELSE 0 END) AS likes, SUM(CASE WHEN cl.dislikes THEN 1 ELSE 0 END) AS dislikes, c.content FROM comment c INNER JOIN user_info u ON c.user_id = u.user_id LEFT JOIN comment_likes cl ON c.comment_id = cl.comment_id AND c.post_id = cl.post_id AND c.user_id = cl.user_id WHERE c.post_id = ? GROUP BY c.comment_id, u.nickname, c.post_id, c.create_time, c.content ORDER BY c.create_time DESC;";
+    "SELECT c.comment_id, u.nickname, c.post_id, c.create_time, SUM(CASE WHEN cl.likes THEN 1 ELSE 0 END) AS likes, SUM(CASE WHEN cl.dislikes THEN 1 ELSE 0 END) AS dislikes, c.content FROM comment c INNER JOIN user_info u ON c.user_id = u.user_id LEFT JOIN comment_likes cl ON c.comment_id = cl.comment_id AND c.post_id = cl.post_id AND c.user_id = cl.user_id WHERE c.post_id = ? GROUP BY c.comment_id, u.nickname, c.post_id, c.create_time, c.content ORDER BY c.create_time ASC;";
   try {
     const [rows] = await connection.query<RowDataPacket[]>(query, [post_id]);
     const comments: CommentData[] = rows.map((row) => {
